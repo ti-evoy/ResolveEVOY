@@ -62,10 +62,19 @@ def get_worksheet():
 
 def load_data() -> pd.DataFrame:
     ws = get_worksheet()
-    data = ws.get_all_values()
-    if len(data) <= 1:
-        return pd.DataFrame(columns=COLUNAS)
-    df = pd.DataFrame(data[1:], columns=data[0])
+    # get_all_records busca TODAS as linhas sem truncar
+    try:
+        records = ws.get_all_records(numericise_ignore=["all"])
+        if not records:
+            return pd.DataFrame(columns=COLUNAS)
+        df = pd.DataFrame(records)
+    except Exception:
+        # fallback: leitura por range explícito até última linha
+        last_row = len(ws.col_values(1)) + 10
+        data = ws.get(f"A1:J{last_row}")
+        if len(data) <= 1:
+            return pd.DataFrame(columns=COLUNAS)
+        df = pd.DataFrame(data[1:], columns=data[0])
     # Garantir todas as colunas
     for col in COLUNAS:
         if col not in df.columns:
