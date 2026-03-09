@@ -161,7 +161,7 @@ if pagina == "➕  Novo Registro":
 
     st.markdown('<div class="section-title">Informações Gerais</div>', unsafe_allow_html=True)
     c1,c2,c3 = st.columns([1,1,1])
-    with c1: data_rec = st.date_input("📅 Data", value=date.today())
+    with c1: data_rec = st.date_input("📅 Data", value=date.today(), format="DD/MM/YYYY")
     with c2: canal    = st.selectbox("📡 Canal", CANAIS)
     with c3: sa       = st.text_input("🏢 S.A", placeholder="Ex: RL GESTÃO")
 
@@ -228,8 +228,8 @@ elif pagina == "📊  Dashboard":
     st.markdown('<div class="page-header"><h1>📊 Dashboard</h1><p>Visão geral das reclamações registradas</p></div>', unsafe_allow_html=True)
 
     cf1,cf2,cf3 = st.columns([1,1,2])
-    with cf1: dt_ini = st.date_input("De", value=df["DATA"].min().date() if len(df) else date.today())
-    with cf2: dt_fim = st.date_input("Até", value=df["DATA"].max().date() if len(df) else date.today())
+    with cf1: dt_ini = st.date_input("De",  value=df["DATA"].min().date() if len(df) else date.today(), format="DD/MM/YYYY")
+    with cf2: dt_fim = st.date_input("Até", value=df["DATA"].max().date() if len(df) else date.today(), format="DD/MM/YYYY")
     with cf3: canal_f = st.multiselect("Canal", CANAIS, default=CANAIS)
 
     mask = (df["DATA"].dt.date >= dt_ini) & (df["DATA"].dt.date <= dt_fim) & (df["CANAL"].isin(canal_f))
@@ -318,8 +318,8 @@ elif pagina == "🔍  Pesquisar":
     st.markdown('<div class="section-title">Filtros de Busca</div>', unsafe_allow_html=True)
     f1,f2,f3,f4 = st.columns([1.5,1,1,1.5])
     with f1: cpf_s  = st.text_input("🪪 CPF / CNPJ", placeholder="Digite para buscar...")
-    with f2: dt_i   = st.date_input("📅 De", value=None, key="si")
-    with f3: dt_f_v = st.date_input("📅 Até", value=None, key="sf")
+    with f2: dt_i   = st.date_input("📅 De",  value=None, key="si",  format="DD/MM/YYYY")
+    with f3: dt_f_v = st.date_input("📅 Até", value=None, key="sf", format="DD/MM/YYYY")
     with f4: canal_s= st.selectbox("📡 Canal", ["Todos"]+CANAIS)
     f5,_ = st.columns([1.5,3])
     with f5:
@@ -418,7 +418,7 @@ elif pagina == "🔍  Pesquisar":
                 st.markdown('<div class="edit-card">', unsafe_allow_html=True)
                 st.markdown("**✏️ Editar Registro**")
                 e1,e2,e3=st.columns([1,1,1])
-                with e1: e_data =st.date_input("Data",value=row["DATA"].date() if pd.notna(row["DATA"]) else date.today(),key=f"ed_{orig_idx}")
+                with e1: e_data =st.date_input("Data",value=row["DATA"].date() if pd.notna(row["DATA"]) else date.today(),key=f"ed_{orig_idx}", format="DD/MM/YYYY")
                 with e2: e_canal=st.selectbox("Canal",CANAIS,index=CANAIS.index(row["CANAL"]) if row["CANAL"] in CANAIS else 0,key=f"ec_{orig_idx}")
                 with e3: e_sa   =st.text_input("S.A",value=str(row["S.A"]),key=f"esa_{orig_idx}")
                 e4,e5=st.columns([2,1])
