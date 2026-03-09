@@ -16,6 +16,43 @@ RETORNO_OPT = ["SEM RETORNO", "SIM", "NÃO", "NÃO CONCLUSIVO"]
 COLUNAS     = ["DATA","CANAL","NOME DO CLIENTE","CPF","MOTIVO","REPRESENTANTE","S.A","DEVOLUÇÃO","RETORNO DO REPRESENTANTE","OBSERVAÇÃO"]
 SCOPES      = ["https://www.googleapis.com/auth/spreadsheets"]
 
+# ── Login / Token ────────────────────────────────────────────────────────────
+def check_login():
+    """Bloqueia o app até o usuário digitar o token correto."""
+    if st.session_state.get("autenticado"):
+        return True
+
+    st.markdown("""
+    <style>
+    .login-wrap{display:flex;align-items:center;justify-content:center;min-height:80vh;}
+    .login-card{background:linear-gradient(135deg,#1e2035,#252842);border:1px solid #2e3154;
+        border-radius:20px;padding:48px 40px;width:100%;max-width:420px;text-align:center;}
+    .login-card h2{color:#e8eaff;font-size:1.5rem;font-weight:700;margin-bottom:8px;}
+    .login-card p{color:#7b82a8;font-size:0.875rem;margin-bottom:32px;}
+    </style>
+    <div class="login-wrap"><div class="login-card">
+        <div style="font-size:2.5rem;margin-bottom:16px">🔐</div>
+        <h2>Acesso Restrito</h2>
+        <p>Digite o token de acesso para continuar</p>
+    </div></div>
+    """, unsafe_allow_html=True)
+
+    token_input = st.text_input("Token de acesso", type="password", placeholder="••••••••", label_visibility="collapsed")
+    col1, col2, col3 = st.columns([1,1,1])
+    with col2:
+        entrar = st.button("Entrar →", use_container_width=True)
+
+    if entrar:
+        if token_input == st.secrets.get("access_token", ""):
+            st.session_state["autenticado"] = True
+            st.rerun()
+        else:
+            st.error("Token incorreto. Tente novamente.")
+    return False
+
+if not check_login():
+    st.stop()
+
 # ── CSS ───────────────────────────────────────────────────────────────────────
 st.markdown("""
 <style>
