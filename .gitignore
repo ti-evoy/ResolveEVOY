@@ -1,0 +1,18 @@
+# Nunca subir dados ou credenciais
+*.xlsx
+*.xls
+*.csv
+.env
+secrets.toml
+.streamlit/secrets.toml
+config.local.json
+data/
+build/
+dist/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
