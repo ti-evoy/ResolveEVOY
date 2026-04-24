@@ -768,8 +768,8 @@ if pagina == "➕  Novo Registro" and can_edit():
             erros.append("S.A e obrigatorio.")
         if teve_dev and not valor_dev:
             erros.append("Informe o valor da devolucao.")
-        if status == "FINALIZADO" and not data_retorno:
-            erros.append("Informe a data de retorno para casos finalizados.")
+        if status == "FINALIZADO" and retorno != "SEM RETORNO" and not data_retorno:
+            erros.append("Informe a data de retorno para casos finalizados com retorno.")
 
         if erros:
             for erro in erros:
@@ -1324,8 +1324,8 @@ elif pagina == "🔍  Pesquisar":
                             erros_edicao.append("Responsavel interno e obrigatorio.")
                         if not e_sa.strip():
                             erros_edicao.append("S.A e obrigatorio.")
-                        if e_status == "FINALIZADO" and not e_data_retorno:
-                            erros_edicao.append("Informe a data de retorno para casos finalizados.")
+                        if e_status == "FINALIZADO" and e_ret != "SEM RETORNO" and not e_data_retorno:
+                            erros_edicao.append("Informe a data de retorno para casos finalizados com retorno.")
 
                         if erros_edicao:
                             for erro in erros_edicao:
